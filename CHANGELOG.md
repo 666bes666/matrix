@@ -10,6 +10,41 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.5.0] — 2026-03-25 — Phase 3 Complete: Analytics MVP
+
+### Added
+
+**Week 13 — Heatmap**
+- `GET /api/v1/analytics/heatmap` — average scores per department×competency, optional `category_id` filter
+- `HeatmapPage` — color-coded table (0=red → 4=blue), tooltips with exact averages
+
+**Week 14 — Excel export**
+- `GET /api/v1/export/matrix.xlsx` — formatted openpyxl workbook: color-coded cells, rotated headers, role-protected (admin/head/dept_head/hr)
+- `GET /api/v1/export/users/{id}/report.xlsx` — user score history with self/tl/dh/peer component breakdown
+- "Экспорт Excel" button on MatrixPage
+- `api/export.ts` client with blob download via anchor click
+
+**Week 15 — IDP (Individual Development Plans)**
+- `GET/POST /api/v1/development-plans` — list (role-scoped) + create
+- `GET/PATCH /api/v1/development-plans/{id}` — read/update status/approval
+- `POST /api/v1/development-plans/{id}/archive` — soft archive
+- `POST/PATCH/DELETE /api/v1/development-plans/{id}/goals/{goal_id}` — goal CRUD with competency link, levels, deadline, mandatory flag
+- `IDPPage` — plan list + create modal; `IDPDetailPage` — goals table with add/delete
+
+**Week 16 — CSV import**
+- `POST /api/v1/import/users` — bulk CSV user import with per-row validation and error reporting
+- `POST /api/v1/import/competencies` — bulk CSV competency import with category lookup
+- `ImportPage` — dual-section CSV upload with success count + error list display
+
+### Tests
+- 30 new tests: `test_phase3.py` (heatmap, exports, IDP CRUD, CSV import)
+- **Total: 171 tests, coverage 89%**
+
+### PRs
+- [#14](https://github.com/666bes666/matrix/pull/14) — Phase 3 complete
+
+---
+
 ## [0.4.0] — 2026-03-25 — Phase 2 Complete: Assessment MVP
 
 ### Added
@@ -214,7 +249,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-[Unreleased]: https://github.com/666bes666/matrix/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/666bes666/matrix/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/666bes666/matrix/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/666bes666/matrix/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/666bes666/matrix/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/666bes666/matrix/compare/v0.1.0...v0.2.0
