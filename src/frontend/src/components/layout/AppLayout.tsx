@@ -46,10 +46,40 @@ export function AppLayout() {
       </AppShell.Header>
 
       <AppShell.Navbar p="md">
-        <NavLink to="/" style={{ textDecoration: 'none' }}>
-          <Text size="sm" c="dimmed" py="xs">
-            Главная
-          </Text>
+        <NavLink to="/" end style={{ textDecoration: 'none' }}>
+          {({ isActive }) => (
+            <Text size="sm" c={isActive ? undefined : 'dimmed'} fw={isActive ? 600 : undefined} py="xs">
+              Главная
+            </Text>
+          )}
+        </NavLink>
+        <NavLink to="/matrix" style={{ textDecoration: 'none' }}>
+          {({ isActive }) => (
+            <Text size="sm" c={isActive ? undefined : 'dimmed'} fw={isActive ? 600 : undefined} py="xs">
+              Матрица компетенций
+            </Text>
+          )}
+        </NavLink>
+        <NavLink to="/users" style={{ textDecoration: 'none' }}>
+          {({ isActive }) => (
+            <Text size="sm" c={isActive ? undefined : 'dimmed'} fw={isActive ? 600 : undefined} py="xs">
+              Сотрудники
+            </Text>
+          )}
+        </NavLink>
+        <NavLink to="/competencies" style={{ textDecoration: 'none' }}>
+          {({ isActive }) => (
+            <Text size="sm" c={isActive ? undefined : 'dimmed'} fw={isActive ? 600 : undefined} py="xs">
+              Компетенции
+            </Text>
+          )}
+        </NavLink>
+        <NavLink to="/target-profiles" style={{ textDecoration: 'none' }}>
+          {({ isActive }) => (
+            <Text size="sm" c={isActive ? undefined : 'dimmed'} fw={isActive ? 600 : undefined} py="xs">
+              Целевые профили
+            </Text>
+          )}
         </NavLink>
       </AppShell.Navbar>
 
