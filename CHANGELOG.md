@@ -8,7 +8,73 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-### Phase 1 Week 4 — User profiles CRUD (planned)
+---
+
+## [0.3.0] — 2026-03-25 — Phase 1 Complete: Weeks 4–8
+
+### Added
+
+**Week 4 — Employee Profiles**
+- `GET /api/v1/users` — list users with search, department, team, role, is_active filters
+- `POST /api/v1/users` — create user (admin, head only)
+- `GET /api/v1/users/me` — current user profile
+- `GET /api/v1/users/{id}` — user detail (scope-filtered)
+- `PATCH /api/v1/users/{id}` — update user (scope-filtered by role)
+- `POST /api/v1/users/{id}/activate` / `deactivate` — toggle active state (admin/head)
+- Frontend: `UsersPage` with DataTable, search and filters; `UserProfilePage` detail view; `RoleBadge` component
+
+**Week 5 — Competency Catalog**
+- `GET /api/v1/competencies/categories` — list categories
+- `GET /api/v1/competencies` — list with filters (category, department, is_common, is_archived, search)
+- `POST /api/v1/competencies` — create (admin, head, department_head)
+- `GET/PATCH /api/v1/competencies/{id}` — read/update
+- `POST /api/v1/competencies/{id}/archive` / `unarchive` — soft archive (admin, head)
+- `PUT /api/v1/competencies/{id}/criteria` — upsert level descriptions (0-4)
+- Frontend: `CompetenciesPage` grouped by category; inline create/edit with criteria editor
+
+**Week 6 — Assessment Foundation**
+- `POST /api/v1/assessments/campaigns` — create campaign (admin, head, dept_head)
+- `GET /api/v1/assessments/campaigns` — list campaigns with status filter
+- `GET /api/v1/assessments/campaigns/{id}` — campaign detail
+- `POST /api/v1/assessments` — create assessment (admin, dept_head, team_lead)
+- `GET /api/v1/assessments` — list with campaign_id / assessee_id filters
+- `GET /api/v1/assessments/{id}` — assessment detail with scores
+- `POST /api/v1/assessments/{id}/scores` — submit scores (upsert, draft support)
+- `GET /api/v1/target-profiles` — list target profiles with department filter
+- `POST /api/v1/target-profiles` — create (admin, head, dept_head)
+- `GET/PATCH /api/v1/target-profiles/{id}` — read/update
+- `DELETE /api/v1/target-profiles/{id}` — delete (admin, head)
+- `PUT /api/v1/target-profiles/{id}/competencies` — set required competencies with levels
+- `GET /api/v1/target-profiles/{id}/gap/{user_id}` — gap analysis vs AggregatedScore
+- Frontend: `TargetProfilesPage`, `AssessmentFormPage` with radio 0–4, draft/submit
+
+**Week 7 — Competency Matrix UI**
+- `GET /api/v1/analytics/matrix` — returns scope-filtered `{users, competencies, scores}` dict
+- Frontend: `MatrixPage` with department/category filter selects
+- `MatrixGrid` component: sticky row/column headers, color-coded cells (0=red → 4=blue), tooltips
+- Navigation sidebar wired with all Phase 1 pages; `App.tsx` routes registered
+
+**Week 8 — RBAC Enforcement**
+- `check_department_access(user, dept_id)` — dept_head restricted to own department
+- `check_team_access(user, team_dept_id)` — team_lead restricted to own department
+- `departments.py`: dept_head can only create/update teams within own department
+- `target_profiles.py`: dept_head can only create/update profiles within own department
+- `usePermissions.ts` frontend hook: `canCreateUser`, `canEditCompetency`, `canCreateCampaign`, etc.
+
+### Tests
+- Week 4: 23 tests (`test_users.py`)
+- Week 5: 19 tests (`test_competencies.py`)
+- Week 6: 12 + 12 tests (`test_target_profiles.py`, `test_assessments.py`)
+- Week 7: 9 tests (`test_analytics.py`)
+- Week 8: 26 tests (`test_rbac.py`)
+- **Total: 133 tests, coverage 92%**
+
+### PRs
+- [#8](https://github.com/666bes666/matrix/pull/8) — Week 4: User profiles
+- [#9](https://github.com/666bes666/matrix/pull/9) — Week 5: Competency catalog
+- [#10](https://github.com/666bes666/matrix/pull/10) — Week 6: Target profiles + assessments
+- [#11](https://github.com/666bes666/matrix/pull/11) — Week 7: Matrix UI
+- [#12](https://github.com/666bes666/matrix/pull/12) — Week 8: RBAC enforcement
 
 ---
 
@@ -112,6 +178,7 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-[Unreleased]: https://github.com/666bes666/matrix/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/666bes666/matrix/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/666bes666/matrix/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/666bes666/matrix/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/666bes666/matrix/releases/tag/v0.1.0
