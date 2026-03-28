@@ -1,7 +1,5 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { notifications } from '@mantine/notifications';
-
 import { authApi } from '../api/auth';
 import { useAuthStore } from '../stores/authStore';
 

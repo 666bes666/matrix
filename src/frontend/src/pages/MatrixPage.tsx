@@ -7,6 +7,8 @@ import { usersApi } from '../api/users'
 import { competenciesApi } from '../api/competencies'
 import { exportApi } from '../api/export'
 import { MatrixGrid } from '../components/assessment/MatrixGrid'
+import type { UserRead } from '../types/models'
+import type { CompetencyCategoryRead } from '../types/competency'
 
 export function MatrixPage() {
   const navigate = useNavigate()
@@ -26,7 +28,7 @@ export function MatrixPage() {
 
   const { data: departments } = useQuery({
     queryKey: ['users-departments'],
-    queryFn: () => usersApi.list().then((users) => {
+    queryFn: () => usersApi.list().then((users: UserRead[]) => {
       const seen = new Set<string>()
       const result: { value: string; label: string }[] = []
       for (const u of users) {
@@ -42,8 +44,8 @@ export function MatrixPage() {
   const { data: categories } = useQuery({
     queryKey: ['competency-categories-matrix'],
     queryFn: () =>
-      competenciesApi.listCategories().then((cats) =>
-        cats.map((c) => ({ value: c.id, label: c.name }))
+      competenciesApi.listCategories().then((cats: CompetencyCategoryRead[]) =>
+        cats.map((c: CompetencyCategoryRead) => ({ value: c.id, label: c.name as string }))
       ),
   })
 

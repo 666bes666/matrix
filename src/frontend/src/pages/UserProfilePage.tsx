@@ -13,6 +13,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useParams, useNavigate } from 'react-router-dom'
 import { analyticsApi } from '../api/analytics'
 import { usersApi } from '../api/users'
+import type { MatrixCompetency } from '../types/analytics'
 import { RadarChart } from '../components/assessment/RadarChart'
 import { RoleBadge } from '../components/ui/RoleBadge'
 import { useAuthStore } from '../stores/authStore'
@@ -48,7 +49,7 @@ export function UserProfilePage() {
     : ''
 
   const radarData = matrix
-    ? matrix.competencies.map((comp) => ({
+    ? matrix.competencies.map((comp: MatrixCompetency) => ({
         subject: comp.name.length > 20 ? comp.name.slice(0, 20) + '…' : comp.name,
         score: matrix.scores[user!.id]?.[comp.id] ?? 0,
       }))

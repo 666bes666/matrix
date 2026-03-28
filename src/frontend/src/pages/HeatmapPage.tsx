@@ -3,12 +3,13 @@ import { Box, LoadingOverlay, Paper, Select, Stack, Text, Title, Tooltip } from 
 import { useQuery } from '@tanstack/react-query'
 import { analyticsApi } from '../api/analytics'
 import { competenciesApi } from '../api/competencies'
+import type { CompetencyCategoryRead } from '../types/competency'
 
 const SCORE_COLOR = (score: number | null | undefined): string => {
   if (score === null || score === undefined) return '#dee2e6'
   const level = Math.round(score)
   const colors = ['#c92a2a', '#e67700', '#fab005', '#2f9e44', '#1971c2']
-  return colors[Math.min(4, Math.max(0, level))]
+  return colors[Math.min(4, Math.max(0, level))] ?? '#dee2e6'
 }
 
 export function HeatmapPage() {
@@ -22,8 +23,8 @@ export function HeatmapPage() {
   const { data: categories } = useQuery({
     queryKey: ['competency-categories-heatmap'],
     queryFn: () =>
-      competenciesApi.listCategories().then((cats) =>
-        cats.map((c) => ({ value: c.id, label: c.name }))
+      competenciesApi.listCategories().then((cats: CompetencyCategoryRead[]) =>
+        cats.map((c: CompetencyCategoryRead) => ({ value: c.id, label: c.name as string }))
       ),
   })
 

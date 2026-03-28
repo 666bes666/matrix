@@ -18,6 +18,7 @@ import { useNavigate } from 'react-router-dom'
 import { developmentPlansApi } from '../api/development_plans'
 import { usersApi } from '../api/users'
 import { usePermissions } from '../hooks/usePermissions'
+import type { DevelopmentPlanRead } from '../types/development_plan'
 
 const APPROVAL_COLORS: Record<string, string> = {
   pending: 'yellow',
@@ -82,7 +83,7 @@ export function IDPPage() {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {plans?.map((plan) => (
+            {plans?.map((plan: DevelopmentPlanRead) => (
               <Table.Tr
                 key={plan.id}
                 style={{ cursor: 'pointer' }}

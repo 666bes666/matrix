@@ -107,7 +107,7 @@ export function UsersPage() {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {users?.map((u) => (
+            {users?.map((u: UserRead) => (
               <Table.Tr key={u.id}>
                 <Table.Td>
                   <Text size="sm" fw={500}>

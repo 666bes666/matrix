@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Button,
   Group,
@@ -13,7 +13,7 @@ import {
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 import { assessmentsApi } from '../api/assessments'
-import type { ScoreInput } from '../types/assessment'
+import type { ScoreInput, AssessmentScoreRead } from '../types/assessment'
 
 const LEVEL_LABELS = ['0 — Нет', '1 — Новичок', '2 — Базовый', '3 — Продвинутый', '4 — Эксперт']
 
@@ -26,9 +26,12 @@ export function AssessmentFormPage() {
     queryKey: ['assessment', id],
     queryFn: () => assessmentsApi.getAssessment(id!),
     enabled: !!id,
-    onSuccess: (data) => {
+  })
+
+  useEffect(() => {
+    if (assessment) {
       const initial: Record<string, ScoreInput> = {}
-      data.scores.forEach((s) => {
+      assessment.scores.forEach((s) => {
         initial[s.competency_id] = {
           competency_id: s.competency_id,
           score: s.score,
@@ -36,8 +39,8 @@ export function AssessmentFormPage() {
         }
       })
       setScores(initial)
-    },
-  })
+    }
+  }, [assessment])
 
   const submitMutation = useMutation({
     mutationFn: (isDraft: boolean) =>
@@ -58,10 +61,11 @@ export function AssessmentFormPage() {
   }
 
   const setComment = (competencyId: string, comment: string) => {
-    setScores((prev) => ({
-      ...prev,
-      [competencyId]: { ...prev[competencyId], comment },
-    }))
+    setScores((prev) => {
+      const existing = prev[competencyId]
+      if (!existing) return prev
+      return { ...prev, [competencyId]: { ...existing, comment } }
+    })
   }
 
   const fullName = (u?: { first_name: string; last_name: string }) =>
@@ -97,7 +101,7 @@ export function AssessmentFormPage() {
               </Text>
             )}
 
-            {assessment.scores.map((s) => (
+            {assessment.scores.map((s: AssessmentScoreRead) => (
               <Paper key={s.competency_id} p="md" withBorder>
                 <Stack gap="sm">
                   <Text fw={500}>{s.competency_id}</Text>

@@ -16,6 +16,7 @@ export interface UserBrief {
   first_name: string;
   last_name: string;
   role: UserRole;
+  department_id: string | null;
 }
 
 export interface UserRead {

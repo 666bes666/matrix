@@ -10,6 +10,7 @@ import {
 } from '@mantine/core'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { notificationsApi } from '../api/notifications'
+import type { NotificationRead } from '../types/notification'
 
 const CATEGORY_COLORS: Record<string, string> = {
   assessment: 'blue',
@@ -43,7 +44,7 @@ export function NotificationsPage() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['notifications'] }),
   })
 
-  const unreadCount = notifications?.filter((n) => !n.is_read).length ?? 0
+  const unreadCount = notifications?.filter((n: NotificationRead) => !n.is_read).length ?? 0
 
   return (
     <Stack>
@@ -64,7 +65,7 @@ export function NotificationsPage() {
       <Paper withBorder pos="relative">
         <LoadingOverlay visible={isLoading} />
         <Stack gap={0}>
-          {notifications?.map((n) => (
+          {notifications?.map((n: NotificationRead) => (
             <Paper
               key={n.id}
               p="md"

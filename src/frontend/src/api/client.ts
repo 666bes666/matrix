@@ -82,4 +82,4 @@ client.interceptors.response.use(
   },
 );
 
-export { client };
+export { client, client as apiClient };

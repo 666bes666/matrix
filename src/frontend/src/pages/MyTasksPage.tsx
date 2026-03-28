@@ -1,6 +1,5 @@
 import {
   Badge,
-  Group,
   LoadingOverlay,
   Paper,
   Stack,
@@ -11,6 +10,7 @@ import {
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { assessmentsApi } from '../api/assessments'
+import type { AssessmentRead } from '../types/assessment'
 
 export function MyTasksPage() {
   const navigate = useNavigate()
@@ -20,7 +20,7 @@ export function MyTasksPage() {
     queryFn: assessmentsApi.listMyTasks,
   })
 
-  const pending = tasks?.filter((t) => t.status !== 'completed') ?? []
+  const pending: AssessmentRead[] = tasks?.filter((t: AssessmentRead) => t.status !== 'completed') ?? []
 
   return (
     <Stack>
@@ -40,7 +40,7 @@ export function MyTasksPage() {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {pending.map((t) => (
+            {pending.map((t: AssessmentRead) => (
               <Table.Tr
                 key={t.id}
                 style={{ cursor: 'pointer' }}

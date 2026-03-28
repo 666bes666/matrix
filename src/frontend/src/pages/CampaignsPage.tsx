@@ -153,13 +153,13 @@ export function CampaignsPage() {
             label="Дата начала (ГГГГ-ММ-ДД)"
             placeholder="2026-04-01"
             value={form.start_date ?? ''}
-            onChange={(e) => setForm((p) => ({ ...p, start_date: e.currentTarget.value as unknown as Date }))}
+            onChange={(e) => setForm((p) => ({ ...p, start_date: e.currentTarget.value }))}
           />
           <TextInput
             label="Дата окончания (ГГГГ-ММ-ДД)"
             placeholder="2026-04-30"
             value={form.end_date ?? ''}
-            onChange={(e) => setForm((p) => ({ ...p, end_date: e.currentTarget.value as unknown as Date }))}
+            onChange={(e) => setForm((p) => ({ ...p, end_date: e.currentTarget.value }))}
           />
           <Group justify="flex-end">
             <Button variant="outline" onClick={close}>Отмена</Button>

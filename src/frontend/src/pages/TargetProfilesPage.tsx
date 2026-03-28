@@ -14,9 +14,8 @@ import { IconPlus } from '@tabler/icons-react'
 import { useQuery } from '@tanstack/react-query'
 import { targetProfilesApi } from '../api/target_profiles'
 import { useAuthStore } from '../stores/authStore'
+import type { TargetProfileRead, TargetProfileCompetencyRead } from '../types/target_profile'
 import { UserRole } from '../types/enums'
-
-const LEVEL_LABELS = ['Нет', 'Новичок', 'Базовый', 'Продвинутый', 'Эксперт']
 
 export function TargetProfilesPage() {
   const { user: currentUser } = useAuthStore()
@@ -31,9 +30,12 @@ export function TargetProfilesPage() {
     currentUser?.role as UserRole,
   )
 
-  const deptOptions = Array.from(
-    new Map(profiles?.map((p) => [p.department_id, p.department.name]) ?? []).entries(),
-  ).map(([id, name]) => ({ value: id, label: name }))
+  const deptMap = new Map<string, string>(
+    (profiles ?? []).map((p): [string, string] => [p.department_id, p.department.name])
+  )
+  const deptOptions: { value: string; label: string }[] = Array.from(deptMap.entries()).map(
+    ([id, name]) => ({ value: id, label: name })
+  )
 
   return (
     <Stack>
@@ -70,8 +72,8 @@ export function TargetProfilesPage() {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {profiles?.map((p) => {
-              const mandatory = p.competencies.filter((c) => c.is_mandatory).length
+            {profiles?.map((p: TargetProfileRead) => {
+              const mandatory = p.competencies.filter((c: TargetProfileCompetencyRead) => c.is_mandatory).length
               return (
                 <Table.Tr key={p.id}>
                   <Table.Td>

@@ -61,7 +61,7 @@ function ImportSection({ title, url, template }: { title: string; url: string; t
             {mutation.data.errors.length > 0 && (
               <Stack mt="xs" gap="xs">
                 <Text size="sm" fw={600}>Ошибки ({mutation.data.errors.length}):</Text>
-                {mutation.data.errors.slice(0, 10).map((e, i) => (
+                {mutation.data.errors.slice(0, 10).map((e: string, i: number) => (
                   <Text key={i} size="xs" c="red">{e}</Text>
                 ))}
                 {mutation.data.errors.length > 10 && (
