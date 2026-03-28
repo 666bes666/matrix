@@ -10,6 +10,39 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [0.7.0] — 2026-03-28 — Phase 5 Complete: Finalization
+
+### Added
+
+**Notifications**
+- `GET /api/v1/notifications` — list unread notifications for current user
+- `POST /api/v1/notifications/{id}/read` — mark single notification as read
+- `POST /api/v1/notifications/read-all` — mark all as read
+- `GET /api/v1/notifications/unread-count` — badge counter for UI polling
+- `NotificationsPage` — list with mark-all-read button, category badges
+- Notification bell in AppLayout header with 30s polling for unread count
+
+**Calibration**
+- `POST /api/v1/calibration/detect` — auto-detect score spread ≥ 2 in finalized campaign; creates `CalibrationFlag` records
+- `GET /api/v1/calibration/flags` — list open flags for campaign
+- `POST /api/v1/calibration/flags/{id}/resolve` — dept_head resolves via adjust/dismiss with free-text reason
+
+**Dashboard**
+- `GET /api/v1/dashboard/stats` — returns `pending_assessments`, `active_campaigns`, `open_idp_goals`, `unread_notifications`
+- `DashboardPage` — redesigned with 4 stat cards (SimpleGrid layout), real data from API
+
+**README**
+- Comprehensive project README: feature list, tech stack, quickstart, architecture overview, role/permission matrix
+
+### Tests
+- 13 new tests: `test_phase5.py` (notifications CRUD, calibration detect/resolve, dashboard stats per role)
+- **Total: 196 tests, coverage 89%**
+
+### PRs
+- [#17](https://github.com/666bes666/matrix/pull/17) — Phase 5 complete
+
+---
+
 ## [0.6.0] — 2026-03-28 — Phase 4 Complete: Career Tracks
 
 ### Added
@@ -279,7 +312,8 @@ Versioning follows [Semantic Versioning](https://semver.org/).
 
 ---
 
-[Unreleased]: https://github.com/666bes666/matrix/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/666bes666/matrix/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/666bes666/matrix/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/666bes666/matrix/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/666bes666/matrix/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/666bes666/matrix/compare/v0.3.0...v0.4.0
