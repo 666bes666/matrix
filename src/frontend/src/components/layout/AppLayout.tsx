@@ -1,14 +1,24 @@
 import { AppShell, Burger, Group, Text, Button, Badge } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconLogout } from '@tabler/icons-react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
+import { notificationsApi } from '../../api/notifications';
 import { useAuth } from '../../hooks/useAuth';
 import { ROLE_LABELS } from '../../types/enums';
 
 export function AppLayout() {
   const [opened, { toggle }] = useDisclosure();
   const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const { data: unreadData } = useQuery({
+    queryKey: ['unread-count'],
+    queryFn: notificationsApi.unreadCount,
+    refetchInterval: 30000,
+  });
+  const unreadCount = unreadData?.count ?? 0;
 
   return (
     <AppShell
@@ -33,6 +43,14 @@ export function AppLayout() {
                 <Badge variant="light">{ROLE_LABELS[user.role]}</Badge>
               </>
             )}
+            <Button
+              variant="subtle"
+              size="sm"
+              onClick={() => navigate('/notifications')}
+              style={{ position: 'relative' }}
+            >
+              🔔{unreadCount > 0 ? ` (${unreadCount})` : ''}
+            </Button>
             <Button
               variant="subtle"
               size="compact-sm"
@@ -120,6 +138,13 @@ export function AppLayout() {
           {({ isActive }) => (
             <Text size="sm" c={isActive ? undefined : 'dimmed'} fw={isActive ? 600 : undefined} py="xs">
               Карьерные треки
+            </Text>
+          )}
+        </NavLink>
+        <NavLink to="/notifications" style={{ textDecoration: 'none' }}>
+          {({ isActive }) => (
+            <Text size="sm" c={isActive ? undefined : 'dimmed'} fw={isActive ? 600 : undefined} py="xs">
+              Уведомления
             </Text>
           )}
         </NavLink>
