@@ -22,6 +22,7 @@ import { ImportPage } from './pages/ImportPage'
 import { CareerPathsPage } from './pages/CareerPathsPage'
 import { CareerPathDetailPage } from './pages/CareerPathDetailPage'
 import { CareerReadinessPage } from './pages/CareerReadinessPage'
+import { NotificationsPage } from './pages/NotificationsPage'
 
 export function App() {
   return (
@@ -48,6 +49,7 @@ export function App() {
           <Route path="/career-paths" element={<CareerPathsPage />} />
           <Route path="/career-paths/:id" element={<CareerPathDetailPage />} />
           <Route path="/users/:userId/career" element={<CareerReadinessPage />} />
+          <Route path="/notifications" element={<NotificationsPage />} />
         </Route>
       </Route>
     </Routes>

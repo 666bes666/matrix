@@ -3,12 +3,15 @@ from fastapi import APIRouter
 from app.api.analytics import router as analytics_router
 from app.api.assessments import router as assessments_router
 from app.api.auth import router as auth_router
+from app.api.calibration import router as calibration_router
 from app.api.career_paths import router as career_paths_router
 from app.api.competencies import router as competencies_router
+from app.api.dashboard import router as dashboard_router
 from app.api.departments import router as departments_router
 from app.api.development_plans import router as development_plans_router
 from app.api.export import router as export_router
 from app.api.imports import router as imports_router
+from app.api.notifications import router as notifications_router
 from app.api.system import router as system_router
 from app.api.target_profiles import router as target_profiles_router
 from app.api.users import router as users_router
@@ -26,3 +29,6 @@ api_router.include_router(development_plans_router)
 api_router.include_router(export_router)
 api_router.include_router(imports_router)
 api_router.include_router(career_paths_router)
+api_router.include_router(notifications_router)
+api_router.include_router(calibration_router)
+api_router.include_router(dashboard_router)
